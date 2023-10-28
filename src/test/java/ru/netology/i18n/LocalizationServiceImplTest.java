@@ -16,25 +16,19 @@ class LocalizationServiceImplTest {
 
     @ParameterizedTest
     @ArgumentsSource(CountryArgumentsProvider.class)
-    void testLocale(Country country) {
+    void testLocale(Country country, String expectedString) {
         LocalizationService localizationService = new LocalizationServiceImpl();
-        if (country.equals(Country.RUSSIA)){
-            String expectedValue = "Добро пожаловать";
-            Assertions.assertEquals(expectedValue, localizationService.locale(country));
-        } else {
-            String expectedValue = "Welcome";
-            Assertions.assertEquals(expectedValue, localizationService.locale(country));
-        }
+            Assertions.assertEquals(expectedString, localizationService.locale(country));
     }
 
     static class CountryArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
-                    Arguments.of(Country.RUSSIA),
-                    Arguments.of(Country.GERMANY),
-                    Arguments.of(Country.USA),
-                    Arguments.of(Country.BRAZIL)
+                    Arguments.of(Country.RUSSIA, "Добро пожаловать"),
+                    Arguments.of(Country.GERMANY, "Welcome"),
+                    Arguments.of(Country.USA, "Welcome"),
+                    Arguments.of(Country.BRAZIL, "Welcome")
             );
         }
     }
